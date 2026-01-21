@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import "./ChatInterface.css";
-import axios from "axios";
 
 interface Message {
   id: number;
@@ -23,7 +22,6 @@ const ChatInterface: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [typingText, setTypingText] = useState("");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -31,7 +29,7 @@ const ChatInterface: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, typingText]);
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (inputValue.trim() === "" || isLoading) return;
@@ -81,6 +79,14 @@ const ChatInterface: React.FC = () => {
       const decoder = new TextDecoder();
       let fullText = "";
 
+      const updateBotMessage = (text: string, isDone: boolean = false) => {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMessageId ? { ...msg, text, isTyping: !isDone } : msg,
+          ),
+        );
+      };
+
       if (reader) {
         while (true) {
           const { done, value } = await reader.read();
@@ -95,22 +101,10 @@ const ChatInterface: React.FC = () => {
                 const data = JSON.parse(line.slice(6));
                 if (data.done) {
                   // Typing tamamlandı
-                  setMessages((prev) =>
-                    prev.map((msg) =>
-                      msg.id === botMessageId
-                        ? { ...msg, text: fullText, isTyping: false }
-                        : msg,
-                    ),
-                  );
+                  updateBotMessage(fullText, true);
                 } else {
                   fullText += data.text;
-                  setMessages((prev) =>
-                    prev.map((msg) =>
-                      msg.id === botMessageId
-                        ? { ...msg, text: fullText }
-                        : msg,
-                    ),
-                  );
+                  updateBotMessage(fullText, false);
                 }
               } catch (e) {
                 // JSON parse hatası, devam et
