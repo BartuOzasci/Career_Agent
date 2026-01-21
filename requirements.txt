@@ -307,7 +307,7 @@ tokenizers==0.21.1
 toml==0.10.2
 tomlkit==0.13.2
 toolz==0.12.1
-torch==2.7.1+cu118
+torch
 torchaudio==2.6.0
 torchvision==0.22.0
 tornado==6.4.2
@@ -343,4 +343,5 @@ xxhash==3.5.0
 yarl==1.20.0
 yfinance==0.2.61
 zstandard==0.25.0
+
 
