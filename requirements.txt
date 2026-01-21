@@ -1,0 +1,19 @@
+# Kariyer Planlayıcı Projesi - Gerekli Kütüphaneler
+
+# Web Framework & API
+fastapi
+uvicorn
+pydantic
+python-multipart
+
+# LangChain & AI
+langchain
+langchain-core
+langchain-google-genai
+google-genai
+
+# Web Scraping & Search
+ddgs
+
+# Utilities
+python-dotenv
