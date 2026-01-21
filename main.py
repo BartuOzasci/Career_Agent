@@ -110,7 +110,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()    
-    
-    
-    
+    main()
+
+# Railway deployment için API app'ini export et
+try:
+    from api import app
+except ImportError:
+    app = None

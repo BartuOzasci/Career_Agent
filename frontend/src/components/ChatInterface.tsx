@@ -49,7 +49,8 @@ const ChatInterface: React.FC = () => {
 
     try {
       // Streaming yanıt al
-      const response = await fetch("http://localhost:8000/chat/stream", {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+      const response = await fetch(`${apiUrl}/chat/stream`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
